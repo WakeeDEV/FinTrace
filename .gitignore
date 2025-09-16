@@ -1,0 +1,6 @@
+__pycache__/
+static/
+.venv/
+credentials.json
+token.json
+koltesek.csv
