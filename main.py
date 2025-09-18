@@ -1,16 +1,34 @@
-from __future__ import print_function
-import os.path
+import os
+import json
+import io
+import re
+import pandas as pd
+import xml.etree.ElementTree as ET
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-import io
 from googleapiclient.http import MediaIoBaseDownload
+
 import process_xml_content
+
+# Ellenőrizd, hogy létezik-e a konfigurációs fájl
+if not os.path.exists('config.json'):
+    print("Hiba: a config.json fájl nem található.")
+    exit()
+
+# A konfigurációs fájl beolvasása
+with open('config.json', 'r', encoding='utf-8') as f:
+    config = json.load(f)
+
+# A beállítások lekérése a JSON fájlból
+folder_id = config['google_drive_folder_id']
+bank_sms_number = config['bank_sms_number']
 
 # Ha a 'token.json' fájl már létezik, az engedélyek automatikusan betöltődnek.
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 creds = None
+
 if os.path.exists('token.json'):
     creds = Credentials.from_authorized_user_file('token.json', SCOPES)
 if not creds or not creds.valid:
@@ -23,9 +41,6 @@ if not creds or not creds.valid:
         token.write(creds.to_json())
 
 service = build('drive', 'v3', credentials=creds)
-
-# Itt kell megadni a Google Drive-mappa azonosítóját.
-folder_id = '10PDoNkeLunRZtjrimYLQAEnXNDbZBUh2'
 
 results = service.files().list(
     q=f"'{folder_id}' in parents and mimeType='text/xml'",
@@ -52,4 +67,4 @@ else:
         xml_content = file_stream.read().decode('utf-8')
         
         # A letöltött tartalom feldolgozása
-        process_xml_content.process_xml_content(xml_content)
+        process_xml_content.process_xml_content(xml_content, bank_sms_number)

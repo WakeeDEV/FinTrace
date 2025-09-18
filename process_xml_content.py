@@ -3,14 +3,14 @@ import os.path
 import pandas as pd
 import xml.etree.ElementTree as ET
 
-def process_xml_content(xml_content):
+def process_xml_content(xml_content, bank_sms_nr):
     root = ET.fromstring(xml_content)
     data = []
 
     for sms in root.findall('sms'):
         # Ellenőrizd, hogy az SMS a banktól jön-e
         # A telefonos bankok SMS-száma eltérhet, szükség esetén módosítsd!
-        if sms.get('address') == '+36302030000': 
+        if sms.get('address') == bank_sms_nr: 
             body = sms.get('body')
             
             # Keresd a tranzakciós adatokat a szövegben
