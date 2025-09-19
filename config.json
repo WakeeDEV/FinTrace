@@ -1,5 +1,23 @@
 
  {   
     "google_drive_folder_id": "10PDoNkeLunRZtjrimYLQAEnXNDbZBUh2",
-    "bank_sms_number": "+36302030000"
+    "bank_sms_number": "+36302030000",
+    "ignored_keywords": [
+        "Jòvàìràs",
+        "Terhelés",
+        "Fiz.hat:",
+        "Kamat",
+        "Személyi kölcsön"
+    ],
+    "store_categories": {
+        "Bevásárlás": ["LIDL", "ALDI", "SPAR", "FAMILY SHOP", "DECATHLON", "TESCO", "CBA PRI'MA", "EURONICS"],
+        "Élelmiszer": ["Wolt", "Delivery Hero", "foodora", "KATEK BUFE", "KATEK-BU:FE", "BEDO", "MCD GYO"],
+        "Tankolás": ["MOL", "OMV", "SHELL"],
+        "Rezsiköltség": ["TELEKOM", "DIGI", "EON"],
+        "Előfizetések": ["SUBSCRIPTIONMSBILL", "PROTON", "DIRECT ONE", "Google One"],
+        "Online vásárlás": ["FOXPOST", "Alza", "eMAG"],
+        "Átutalás": ["REVOLUT"],
+        "Egészség": ["GYÓGYTÁR", "PATIKA", "BENU"],
+        "Utazás": ["SZALLAS.HU", "BOLT.EU", "BUDAPESTGO"]
+    }
 }
