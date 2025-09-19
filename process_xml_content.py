@@ -30,7 +30,7 @@ def process_xml_content(xml_content, bank_sms_nr, store_categories, ignored_keyw
                 
                 # Ellenőrzés, hogy az SMS tartalmazza-e a figyelmen kívül hagyandó kulcsszavakat
                 if any(kw.lower() in store_name.lower() for kw in ignored_keywords):
-                    print(f"Figyelmen kívül hagyva a tranzakció: {store_name}...")
+                    # print(f"Figyelmen kívül hagyva a tranzakció: {store_name}...")
                     continue  # Ugrás a következő SMS-re a ciklusban
 
                 # A kategória hozzárendelése a bolt neve alapján
@@ -43,7 +43,7 @@ def process_xml_content(xml_content, bank_sms_nr, store_categories, ignored_keyw
                 data.append([date.strftime('%Y-%m-%d'), store_name, amount, category])
 
     # DataFrame elkészítése és mentése CSV-be
-    df = pd.DataFrame(data, columns=['Dátum', 'Bolt', 'Összeg', 'Katekória'])
+    df = pd.DataFrame(data, columns=['Dátum', 'Bolt', 'Összeg', 'Kategória'])
     
     if not os.path.exists('koltesek.csv'):
         df.to_csv('koltesek.csv', index=False, mode='w', encoding='utf-8-sig')

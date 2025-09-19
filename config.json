@@ -1,23 +1,29 @@
 
  {   
-    "google_drive_folder_id": "10PDoNkeLunRZtjrimYLQAEnXNDbZBUh2",
+    "google_drive_folder_id": "1NkmyhOXPJJTxGZiIrlArnZyi3RbPvOUU",
     "bank_sms_number": "+36302030000",
     "ignored_keywords": [
         "Jòvàìràs",
         "Terhelés",
         "Fiz.hat:",
         "Kamat",
-        "Személyi kölcsön"
+        "Személyi kölcsön",
+        "Átutalás",
+        "Revolut",
+        "Ismeretlen bolt",
+        "Sikertelen"
     ],
     "store_categories": {
-        "Bevásárlás": ["LIDL", "ALDI", "SPAR", "FAMILY SHOP", "DECATHLON", "TESCO", "CBA PRI'MA", "EURONICS"],
-        "Élelmiszer": ["Wolt", "Delivery Hero", "foodora", "KATEK BUFE", "KATEK-BU:FE", "BEDO", "MCD GYO"],
-        "Tankolás": ["MOL", "OMV", "SHELL"],
-        "Rezsiköltség": ["TELEKOM", "DIGI", "EON"],
-        "Előfizetések": ["SUBSCRIPTIONMSBILL", "PROTON", "DIRECT ONE", "Google One"],
-        "Online vásárlás": ["FOXPOST", "Alza", "eMAG"],
-        "Átutalás": ["REVOLUT"],
+        "Vásárlás": ["LIDL", "ALDI", "SPAR", "FAMILY SHOP", "DECATHLON", "TESCO", "CBA PRI'MA", "BEDO", "EURONICS", "Penny", "REGIOJATEK", "OBI Hungary ", 
+        "Praktiker", "DM "],
+        "Étel / Ital": ["Wolt", "Delivery Hero", "foodora", "KATEK BUFE", "KATEK-BU:FE", "MCD GYO", "BUFE", "McDonalds", "etterem", "BURGER KING", "pekseg", 
+        "CUKRASZDA", "PIZZ"],
+        "Tankolás / Autó": ["MOL", "OMV", "SHELL", "Uni Wash", "Normbenz"],
+        "Rezsi": ["TELEKOM", "DIGI", "EON"],
+        "Előfizetések": ["SUBSCRIPTIONMSBILL", "PROTON", "DIRECT ONE", "Google One", "SKYSHOWTIME", "YouTubePremium", "HBO MAX"],
+        "Online vásárlás": ["FOXPOST", "Alza", "eMAG", "marketa", "steam"],
         "Egészség": ["GYÓGYTÁR", "PATIKA", "BENU"],
-        "Utazás": ["SZALLAS.HU", "BOLT.EU", "BUDAPESTGO"]
+        "Utazás / Szórakozás": ["SZALLAS.HU", "BOLT.EU", "BUDAPESTGO", "MAV-STA", "MOBILJEGY", "Dumaszinhaz", "CINEMA CITY"],
+        "Kutya": ["Happy Dog kft"]
     }
 }

@@ -3,4 +3,5 @@ static/
 .venv/
 credentials.json
 token.json
-koltesek.csv
+*.csv
+*.xlsx

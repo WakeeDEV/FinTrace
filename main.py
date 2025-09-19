@@ -43,8 +43,9 @@ if not creds or not creds.valid:
 service = build('drive', 'v3', credentials=creds)
 
 results = service.files().list(
-    q=f"'{folder_id}' in parents and mimeType='text/xml'",
+    q=f"'{folder_id}' in parents and mimeType='text/xml' and trashed=false",
     fields="nextPageToken, files(id, name)").execute()
+
 items = results.get('files', [])
 
 if not items:
