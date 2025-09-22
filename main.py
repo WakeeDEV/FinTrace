@@ -54,6 +54,8 @@ else:
     for item in items:
         file_id = item['id']
         file_name = item['name']
+        if file_name[:3] != 'sms':
+            continue
         print(f"Feldolgozás alatt: {file_name}")
 
         # A fájl tartalmának letöltése

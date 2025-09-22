@@ -85,5 +85,32 @@ def process_xml_content(xml_content, bank_sms_nr, store_categories, ignored_keyw
     # Iterálás a hónapok felett és a havi adatok mentése külön CSV-fájlokba
     for month, month_df in grouped_by_month:
         filename = rf'data\koltesek_{month}.csv'
-        month_df.to_csv(filename, index=False, mode='w', encoding='utf-8-sig')
-        print(f"Adatok sikeresen elmentve: {filename}")
+
+        # A felesleges 'Hónap' oszlop eltávolítása a mentés előtt
+        month_df = month_df.drop(columns=['Hónap'])
+        
+        # Ellenőrizd, hogy a fájl már létezik-e
+        if os.path.exists(filename):
+            # Ha létezik, olvasd be a tartalmát
+            existing_df = pd.read_csv(filename)
+            
+            # Találja meg a hiányzó sorokat
+            # A duplikációk elkerülése érdekében egy egyedi kulcsot hozunk létre
+            existing_df['unique_id'] = existing_df['Dátum'].astype(str) + existing_df['Bolt'].astype(str) + existing_df['Összeg'].astype(str)
+            month_df['unique_id'] = month_df['Dátum'].astype(str) + month_df['Bolt'].astype(str) + month_df['Összeg'].astype(str)
+
+            new_rows = month_df[~month_df['unique_id'].isin(existing_df['unique_id'])]
+            
+            # Ha vannak új sorok, fűzd hozzá őket a meglévő fájlhoz
+            if not new_rows.empty:
+                # Törölje a segéd oszlopot a mentés előtt
+                new_rows = new_rows.drop(columns=['unique_id'])
+                new_rows.to_csv(filename, mode='a', header=False, index=False, encoding='utf-8-sig')
+                print(f"Hozzáadva {len(new_rows)} új sor a(z) {filename} fájlhoz.")
+            else:
+                print(f"Nincs új sor a(z) {filename} fájlban.")
+                
+        else:
+            # Ha a fájl nem létezik, egyszerűen hozd létre
+            month_df.to_csv(filename, mode='w', index=False, encoding='utf-8-sig')
+            print(f"Adatok sikeresen elmentve: {filename}")
