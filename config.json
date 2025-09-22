@@ -3,8 +3,6 @@
     "google_drive_folder_id": "1NkmyhOXPJJTxGZiIrlArnZyi3RbPvOUU",
     "bank_sms_number": "+36302030000",
     "ignored_keywords": [
-        "Jòvàìràs",
-        "Terhelés",
         "Fiz.hat:",
         "Kamat",
         "Személyi kölcsön",
@@ -18,10 +16,10 @@
         "Praktiker", "DM "],
         "Étel / Ital": ["Wolt", "Delivery Hero", "foodora", "KATEK BUFE", "KATEK-BU:FE", "MCD GYO", "BUFE", "McDonalds", "etterem", "BURGER KING", "pekseg", 
         "CUKRASZDA", "PIZZ"],
-        "Tankolás / Autó": ["MOL", "OMV", "SHELL", "Uni Wash", "Normbenz"],
-        "Rezsi": ["TELEKOM", "DIGI", "EON"],
+        "Tankolás / Autó": ["toltoall", "OMV", "SHELL", "Uni Wash", "Normbenz"],
+        "Rezsi": ["TELEKOM", "DIGI", "EON", "dijnet", "Tàrsashàz"],
         "Előfizetések": ["SUBSCRIPTIONMSBILL", "PROTON", "DIRECT ONE", "Google One", "SKYSHOWTIME", "YouTubePremium", "HBO MAX"],
-        "Online vásárlás": ["FOXPOST", "Alza", "eMAG", "marketa", "steam"],
+        "Online vásárlás": ["FOXPOST", "Alza", "eMAG", "marketa", "steam", "SZERENCSEJATEKBUDAPEST"],
         "Egészség": ["GYÓGYTÁR", "PATIKA", "BENU"],
         "Utazás / Szórakozás": ["SZALLAS.HU", "BOLT.EU", "BUDAPESTGO", "MAV-STA", "MOBILJEGY", "Dumaszinhaz", "CINEMA CITY"],
         "Kutya": ["Happy Dog kft"]
