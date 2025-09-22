@@ -1,6 +1,7 @@
 __pycache__/
 static/
 .venv/
+data/
 credentials.json
 token.json
 *.csv

@@ -70,10 +70,20 @@ def process_xml_content(xml_content, bank_sms_nr, store_categories, ignored_keyw
 
     # DataFrame elkészítése és mentése CSV-be
     df = pd.DataFrame(data, columns=['Dátum', 'Tranzakció', 'Bolt', 'Összeg', 'Kategória'])
-    
-    if not os.path.exists('koltesek.csv'):
-        df.to_csv('koltesek.csv', index=False, mode='w', encoding='utf-8-sig')
-    else:
-        df.to_csv('koltesek.csv', index=False, mode='a', header=False, encoding='utf-8-sig')
-    
-    print("Adatok sikeresen feldolgozva és elmentve.")
+
+    # Ha a DataFrame üres, nincs mit menteni
+    if df.empty:
+        print("Nincs feldolgozható tranzakció a fájlban.")
+        return
+
+    # Hónap oszlop létrehozása a dátumból a YYYY-MM formátummal
+    df['Hónap'] = pd.to_datetime(df['Dátum']).dt.strftime('%Y-%m')
+
+    # Adatok csoportosítása hónap szerint
+    grouped_by_month = df.groupby('Hónap')
+
+    # Iterálás a hónapok felett és a havi adatok mentése külön CSV-fájlokba
+    for month, month_df in grouped_by_month:
+        filename = rf'data\koltesek_{month}.csv'
+        month_df.to_csv(filename, index=False, mode='w', encoding='utf-8-sig')
+        print(f"Adatok sikeresen elmentve: {filename}")
