@@ -1,26 +1,26 @@
 import pandas as pd
 import glob
 
-excel_filename = "havi_koltesek_osszesites.xlsx"
+excel_filename = "monthly_spending_summary.xlsx"
 csv_pattern = r"data\koltesek_*.csv"
 
-# A mappában lévő összes CSV fájl megkeresése
+# Find all CSV files in the specified folder
 csv_files = glob.glob(csv_pattern)
 
 if not csv_files:
-    print("Hiba: Nincsenek CSV fájlok a mappában.")
+    print("Error: No CSV files found in the folder.")
     exit()
 
 try:
-    # Az összes CSV fájl beolvasása és egy DataFrame-be fűzése
+    # Read all CSV files and concatenate them into a single DataFrame
     all_dfs = [pd.read_csv(f) for f in csv_files]
     df = pd.concat(all_dfs, ignore_index=True)
 
-    # Dátum oszlop átalakítása és hónap oszlop létrehozása
+    # Convert 'Dátum' to datetime and create a 'Hónap' (Month) column
     df['Dátum'] = pd.to_datetime(df['Dátum'])
     df['Hónap'] = df['Dátum'].dt.strftime('%Y-%m')
 
-    # Pivot tábla létrehozása a kívánt formátumban
+    # Create a pivot table in the desired format
     monthly_summary = df.pivot_table(
         values='Összeg',
         index='Hónap',
@@ -29,7 +29,8 @@ try:
         fill_value=0
     ).reset_index()
 
-    # A kívánt oszlop sorrend meghatározása
+    # Define the desired column order
+    # Move the 'Egyéb' and 'Jóváírás' columns to the end
     columns = list(monthly_summary.columns)
     columns_to_move = ['Egyéb', 'Jóváírás']
     
@@ -38,27 +39,27 @@ try:
             columns.remove(col)
             columns.append(col)
             
-    # Az oszlopok sorrendjének beállítása
+    # Set the new column order
     monthly_summary = monthly_summary[columns]
 
-    # Excel tábla mentése és formázása
+    # Save and format the Excel file
     with pd.ExcelWriter(excel_filename, engine='xlsxwriter') as writer:
-        # A DataFrame mentése az 'Összesítés' nevű lapra
-        monthly_summary.to_excel(writer, sheet_name='Összesítés', index=False)
+        # Save the DataFrame to a sheet named 'Summary'
+        monthly_summary.to_excel(writer, sheet_name='Summary', index=False)
 
-        # Az Excel munkafüzet és munkalap objektumok elérése
+        # Get the workbook and worksheet objects
         workbook = writer.book
-        worksheet = writer.sheets['Összesítés']
+        worksheet = writer.sheets['Summary']
         
-        # Pénznem formátum létrehozása
+        # Create a currency format
         currency_format = workbook.add_format({'num_format': '#,##0 "Ft"'})
         
-        # A pénznem formátum alkalmazása a releváns oszlopokra
+        # Apply the currency format to the relevant columns
         for col_num, value in enumerate(monthly_summary.columns):
             if value != 'Hónap':
                 worksheet.set_column(col_num, col_num, 15, currency_format)
 
-    print(f"Sikeresen generált Excel tábla: {excel_filename}")
+    print(f"Successfully generated Excel table: {excel_filename}")
     
 except Exception as e:
-    print(f"Hiba történt a fájl generálása során: {e}")
+    print(f"An error occurred during file generation: {e}")

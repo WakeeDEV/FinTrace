@@ -1,47 +1,61 @@
-Expense Tracker - SMS-based Expenditure Monitoring
-A personalized Python script designed to automatically track monthly expenditures by processing bank transaction SMS notifications. This system automates the collection and categorization of transactions, saving them into a clean CSV file that can be easily imported into spreadsheet programs like Google Sheets for further analysis.
+K&H Bank Transaction Tracker
+
+This Python script automatically processes bank SMS notifications by downloading them from Google Drive, then saves monthly, categorized spending data into CSV and Excel files. Its purpose is to provide a simple and transparent way to track personal finances.
 
 Features
-Automated Data Collection: The script works with SMS backups stored in Google Drive, which can be automatically synced from your phone.
-Intelligent Data Extraction: It uses regular expressions (regex) to extract key transaction data (date, amount, store name) from the text of the SMS messages.
-Data Structuring: It transforms raw data into a structured CSV file, providing a perfect foundation for detailed analysis and visualization.
-Scalable and Customizable: The script can be easily extended to support new SMS formats and transaction categories.
+The script offers the following key features:
+- Automatic Data Processing: It connects to your Google Drive to download and extract transaction data (amount, store name, transaction type) from bank SMS notifications.
+- Categorization: It automatically categorizes transactions based on built-in keywords (e.g., Shopping, Fuel, Entertainment).
+- Monthly Data Storage: Transactions are saved into separate CSV files for each month, preventing data from being overwritten.
+- Duplicate Prevention: It only appends new, unprocessed transactions to existing monthly CSV files, ensuring clean data.
+- Excel Summary: It generates a comprehensive Excel file with a monthly spending summary, categorized and formatted for easy analysis.
+
+Prerequisites
+To run the script, you'll need the following:
+
+- Python 3.6 or a newer version
+- A Google Drive folder containing your SMS archive files (in .xml format)
+- The required Python libraries: pandas, openpyxl, XlsxWriter, google-api-python-client, google-auth-httplib2, google-auth-oauthlib
 
 Installation
-To run this project, you need the following Python libraries:
-
-Bash
-pip install pandas google-api-python-client google-auth-oauthlib
+- Clone the repository to your local machine
+- Install the necessary Python libraries:
+    pip install -r requirements.txt
+- Google Drive API Setup
+    Go to the Google Cloud Console.
+    Create a new project.
+    Enable the Google Drive API for your project.
+    Navigate to the "Credentials" section and click "Create Credentials" > "OAuth client ID".
+    Select "Desktop app" as the application type.
+    Click "Download JSON" and save the file as credentials.json in the same folder as your Python scripts.
 
 Usage
-Google Cloud Platform Setup:
-Create a new project in the Google Cloud Console.
-Enable the Google Drive API.
-Create "OAuth client ID" credentials for a "Desktop app" and download the credentials.json file, placing it in the same folder as your script.
-Add your Google account to the "Test users" list on the OAuth consent screen.
+- Place your credentials.json file in the same directory as the script.
+- Create a config.json file in the same directory with your specific bank and Google Drive folder details. An example is provided below.
 
-Provide the Folder ID:
-Create a folder on your Google Drive for the SMS backups and copy its unique ID from the URL.
-Replace the value of the folder_id variable in your main.py file with this ID.
+JSON
+{
+  "google_drive_folder_id": "YOUR_FOLDER_ID",
+  "bank_sms_number": "+36302030000",
+  "store_categories": {
+    "Tankolás / Autó": ["OMV", "SHELL", "MOL", "TOTAL"],
+    "Élelmiszer": ["SPAR", "LIDL", "ALDI"],
+    "Rezsiköltség": ["EON", "DIGI", "VODAFONE"],
+    "Utazás / Szórakozás": ["SIMPLEPAY", "JEGYHU", "CINEMACITY", "DUMASZINHAZ"],
+    "Jóváírás": ["TRANSFER", "ATUTALAS"],
+    "Egyéb": ["UNKNOWN", "ISMERETLEN"]
+  },
+  "ignored_keywords": [ "egyenleg", "felhasznalhato" ]
+}
 
-Run the Script:
-Execute the script from your terminal: python main.py
-The first time you run it, a browser window will open to request your permission to access your Google Drive.
-After the script runs, a koltesek.csv file will be created in the root directory, containing your processed transaction data.
+- Run the main script from your terminal:
 
-Example SMS Processing
-The script is configured to process SMS messages with the following format (you may need to adjust the regex for your specific bank's messages):
+The first time you run the script, a browser window will open to authorize access to your Google Drive. After successful authorization, a token.json file will be created. The script will use this file for all future runs.
 
-XML
+The script will now automatically download and process the XML files from your Google Drive folder, generating the CSV and Excel summary files.
 
-<sms protocol="0" address="+36302030000" date="1682141915110" type="1" subject="null" body="K&amp;H&#10;Hitelkàrtya&#10;Vàsàrlàs&#10;23/04/22 07:38&#10;3.609 HUF&#10;FAMILY SHOP GYOR HU&#10;VARGA TAMÁS&#10;Egyenleg: 212.825">
-</sms>
-The script extracts the store name (e.g., FAMILY SHOP GYOR HU) from the line following the amount.
-
-Project Status and Future Plans
-In Progress: Automatic categorization of transactions (e.g., mapping "FAMILY SHOP" to "Groceries").
-
-Planned Features: Integrating data visualization directly into the script (e.g., generating charts to show spending trends).
+Contributing
+Pull requests and bug reports are welcome. If you'd like to suggest an improvement or a new feature, feel free to open an issue or create a pull request.
 
 License
-This project is open-source and available under the MIT License.
+This project is licensed under the MIT License. See the LICENSE file for more details.

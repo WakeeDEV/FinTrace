@@ -10,22 +10,22 @@ from googleapiclient.http import MediaIoBaseDownload
 
 import process_xml_content
 
-# Ellenőrzöm, hogy létezik-e a konfigurációs fájl
+# Check if the configuration file exists
 if not os.path.exists('config.json'):
     print("Hiba: a config.json fájl nem található.")
     exit()
 
-# A konfigurációs fájl beolvasása
+# Read the configuration file
 with open('config.json', 'r', encoding='utf-8') as f:
     config = json.load(f)
 
-# A beállítások lekérése a JSON fájlból
+# Get settings from the JSON file
 folder_id = config['google_drive_folder_id']
 bank_sms_number = config['bank_sms_number']
 store_categories = config.get('store_categories', {})
 ignored_keywords = config.get('ignored_keywords', [])
 
-# Ha a 'token.json' fájl már létezik, az engedélyek automatikusan betöltődnek
+# If 'token.json' exists, credentials are automatically loaded
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 creds = None
 
@@ -49,16 +49,16 @@ results = service.files().list(
 items = results.get('files', [])
 
 if not items:
-    print('Nincsenek fájlok a mappában.')
+    print('No files found in the folder.')
 else:
     for item in items:
         file_id = item['id']
         file_name = item['name']
         if file_name[:3] != 'sms':
             continue
-        print(f"Feldolgozás alatt: {file_name}")
+        print(f"Processing: {file_name}")
 
-        # A fájl tartalmának letöltése
+        # Download the file content
         request = service.files().get_media(fileId=file_id)
         file_stream = io.BytesIO()
         downloader = MediaIoBaseDownload(file_stream, request)
@@ -69,5 +69,5 @@ else:
         file_stream.seek(0)
         xml_content = file_stream.read().decode('utf-8')
         
-        # A letöltött tartalom feldolgozása
+        # Process the downloaded content
         process_xml_content.process_xml_content(xml_content, bank_sms_number, store_categories, ignored_keywords)
